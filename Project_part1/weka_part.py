@@ -1,5 +1,8 @@
 import weka.core.jvm as jvm
 from weka.core.converters import Loader, Saver
+import matplotlib.pyplot as plt
+import pandas as pd
+from scipy.io.arff import loadarff
 import numpy as np
 
 class weka_handler:
@@ -11,10 +14,19 @@ class weka_handler:
         jvm.start()
         l = Loader("weka.core.converters.ArffLoader")
         self.dataset = l.load_file(file_path)
+        self.dataset_line_plot(file_path)
 
     def save_dataset(self,filepath):
         saver = Saver(classname="weka.core.converters.CSVSaver")
         saver.save_file(self.dataset, filepath)
+
+    def dataset_line_plot(self,file_path):
+        raw_data = loadarff(file_path)
+        df_data = pd.DataFrame(raw_data[0])
+        #for att in list(df_data):
+            #boxplot=df_data.boxplot(column=[att])
+
+
 
     def attribute_min(self):
         print(self.dataset.attribute(0).lower_numeric_bound)
@@ -47,5 +59,11 @@ class weka_handler:
     def attribute_median(self,attribute_id):
         return np.median(self.get_attribute_values(attribute_id))
 
-    def attribute_midrange(self):
+    def attribute_q3(self,attribute_id):
+        return np.quantile(self.get_attribute_values(attribute_id),0.5)
+
+    def attribute_mode(self,attribute_id):
         pass
+
+    def attribute_mean(self,attribute_id):
+        return np.mean(self.get_attribute_values(attribute_id))

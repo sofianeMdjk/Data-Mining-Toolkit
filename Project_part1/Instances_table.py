@@ -20,11 +20,14 @@ class Instances_table(QWidget):
 
         #Vertical layout 2
         self.attributes_box = QComboBox()
-        self.attributes_box.addItems(self.weka_instance.get_attributes())
+        attributes = self.weka_instance.get_attributes()
+        attributes.remove("class")
+
+        self.attributes_box.addItems(attributes)
         self.attributes_box.currentIndexChanged.connect(self.attribute_clicked)
         self.vlayout2.addWidget(self.attributes_box)
 
-        self.button = QPushButton("this is a button")
+        self.button = QPushButton("Box plot")
         self.button.resize(140,140)
         self.vlayout2.addWidget(self.button)
 
@@ -48,7 +51,9 @@ class Instances_table(QWidget):
         min= str(self.weka_instance.attribute_min(i))
         max=str(self.weka_instance.attribute_max(i))
         median=str(self.weka_instance.attribute_median(i))
-        message_content = "Minimum value is : "+min+"\nMaximum value is : "+max+"\nMedian is : "+median
+        mean=str(self.weka_instance.attribute_mean(i))
+        q3=str(self.weka_instance.attribute_q3(i))
+        message_content = "Minimum value is : "+min+"\nMaximum value is : "+max+"\nMedian is : "+median+"\nMean value is : "+mean+"\nQ3 Value is : "+q3
         buttonReply = QMessageBox.information(self, 'PyQt5 message', message_content, QMessageBox.Cancel)
         print(int(buttonReply))
         print("attribute changed")
