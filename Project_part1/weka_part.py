@@ -28,6 +28,13 @@ class weka_handler:
           plt.legend()
           plt.show()
 
+    def box_plot(self):
+         for att in self.df_data:
+             if att != "class":
+                plt.boxplot(self.df_data[att],meanline=True,vert=False)
+         plt.legend()
+         plt.show()
+
     def attribute_min(self):
         print(self.dataset.attribute(0).lower_numeric_bound)
 

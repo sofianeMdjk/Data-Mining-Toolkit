@@ -33,6 +33,11 @@ class Instances_table(QWidget):
         self.button.clicked.connect(self.hist_plot)
         self.vlayout2.addWidget(self.button)
 
+        self.box_button = QPushButton("Draw box plot")
+        self.box_button.resize(140, 140)
+        self.box_button.clicked.connect(self.box_plot)
+        self.vlayout2.addWidget(self.box_button)
+
         #Horizental layout
 
         self.hlayout.addLayout(self.vlayout1)
@@ -64,6 +69,8 @@ class Instances_table(QWidget):
     def hist_plot(self):
         self.weka_instance.hist_plot()
 
+    def box_plot(self):
+        self.weka_instance.box_plot()
     def cellClick(self):
         print("Cell click in here")
 
