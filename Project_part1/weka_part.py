@@ -14,19 +14,19 @@ class weka_handler:
         jvm.start()
         l = Loader("weka.core.converters.ArffLoader")
         self.dataset = l.load_file(file_path)
-        self.dataset_line_plot(file_path)
+        raw_data = loadarff(file_path)
+        self.df_data = pd.DataFrame(raw_data[0])
 
     def save_dataset(self,filepath):
         saver = Saver(classname="weka.core.converters.CSVSaver")
         saver.save_file(self.dataset, filepath)
 
-    def dataset_line_plot(self,file_path):
-        raw_data = loadarff(file_path)
-        df_data = pd.DataFrame(raw_data[0])
-        #for att in list(df_data):
-            #boxplot=df_data.boxplot(column=[att])
-
-
+    def hist_plot(self):
+          for att in self.df_data :
+            if att != "class":
+                plt.hist(self.df_data[att], bins= 20, rwidth=0.50, label=att)
+          plt.legend()
+          plt.show()
 
     def attribute_min(self):
         print(self.dataset.attribute(0).lower_numeric_bound)

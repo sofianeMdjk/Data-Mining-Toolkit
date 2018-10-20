@@ -1,5 +1,6 @@
 
 from PyQt5.QtWidgets import QTableView,QWidget,QTableWidget,QTableWidgetItem,QVBoxLayout,QHBoxLayout,QPushButton,QComboBox, QMessageBox
+import matplotlib.pyplot as plt
 class Instances_table(QWidget):
     def __init__(self,wk):
         super(Instances_table, self).__init__()
@@ -27,8 +28,9 @@ class Instances_table(QWidget):
         self.attributes_box.currentIndexChanged.connect(self.attribute_clicked)
         self.vlayout2.addWidget(self.attributes_box)
 
-        self.button = QPushButton("Box plot")
+        self.button = QPushButton("Draw histogram")
         self.button.resize(140,140)
+        self.button.clicked.connect(self.hist_plot)
         self.vlayout2.addWidget(self.button)
 
         #Horizental layout
@@ -58,6 +60,9 @@ class Instances_table(QWidget):
         print(int(buttonReply))
         print("attribute changed")
         print(self.weka_instance.attribute_min(i))
+
+    def hist_plot(self):
+        self.weka_instance.hist_plot()
 
     def cellClick(self):
         print("Cell click in here")
