@@ -29,9 +29,9 @@ class weka_handler:
           plt.show()
 
     def box_plot(self):
-         for att in self.df_data:
-             if att != "class":
-                plt.boxplot(self.df_data[att],meanline=True,vert=False)
+         data_list = [self.df_data[att] for att in self.df_data if att!="class"]
+         print(data_list)
+         plt.boxplot(data_list,meanline=True,vert=False)
          plt.legend()
          plt.show()
 
