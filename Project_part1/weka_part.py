@@ -38,6 +38,7 @@ class weka_handler:
     def attribute_min(self):
         print(self.dataset.attribute(0).lower_numeric_bound)
 
+
     def get_instance_list(self,index):
         return  str(self.dataset.get_instance(index)).split(",")
 
@@ -47,6 +48,12 @@ class weka_handler:
             instances[i]=self.get_instance_list(i)
         return instances
 
+    def dataset_labelized(self):
+        list = self.get_attributes()
+        if "class" in list:
+            return True
+        else:
+            return False
 
     def get_attributes(self):
         attributes = []
@@ -74,3 +81,6 @@ class weka_handler:
 
     def attribute_mean(self,attribute_id):
         return np.mean(self.get_attribute_values(attribute_id))
+
+    def normalize_data(self):
+        print("Data normalize")
