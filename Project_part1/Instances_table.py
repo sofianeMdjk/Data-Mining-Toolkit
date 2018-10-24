@@ -21,9 +21,6 @@ class Instances_table(QWidget):
         self.vlayout1.addWidget(self.instances_table)
 
         #Vertical layout 2
-        self.attributes_box = QComboBox()
-        attributes = self.weka_instance.get_attributes()
-        attributes.remove("class")
 
         self.attributes_label = QLabel()
         text = "Number of attributes is : "
@@ -37,9 +34,16 @@ class Instances_table(QWidget):
         self.instances_label.setText(text)
         self.vlayout2.addWidget(self.instances_label)
 
+        self.attributes_box = QComboBox()
+        attributes = self.weka_instance.get_attributes()
+        attributes.remove("class")
         self.attributes_box.addItems(attributes)
         self.attributes_box.currentIndexChanged.connect(self.attribute_clicked)
         self.vlayout2.addWidget(self.attributes_box)
+
+        self.normalize_button = QPushButton("Normalize dataset")
+        self.normalize_button.clicked.connect(self.normalize_data)
+        self.vlayout2.addWidget(self.normalize_button)
 
         self.hist_button = QPushButton("Draw histogram")
         self.hist_button.clicked.connect(self.hist_plot)
@@ -49,9 +53,6 @@ class Instances_table(QWidget):
         self.box_button.clicked.connect(self.box_plot)
         self.vlayout2.addWidget(self.box_button)
 
-        self.normalize_button = QPushButton("Normalize dataset")
-        self.normalize_button.clicked.connect(self.normalize_data)
-        self.vlayout2.addWidget(self.normalize_button)
         #Horizental layout
 
         self.hlayout.addLayout(self.vlayout1)

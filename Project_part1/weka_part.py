@@ -16,6 +16,7 @@ class weka_handler:
         self.dataset = l.load_file(file_path)
         raw_data = loadarff(file_path)
         self.df_data = pd.DataFrame(raw_data[0])
+        self.get_attribute_type(2)
 
     def save_dataset(self,filepath):
         saver = Saver(classname="weka.core.converters.CSVSaver")
@@ -64,22 +65,50 @@ class weka_handler:
     def get_attribute_values(self, attribute_id):
         return np.array(self.dataset.values(attribute_id))
 
-    def attribute_min(self,attribute_id):
+    def get_attribute_type(self, attribute_id):
+        att_names = list(self.df_data.head(0))
+        val = type(self.df_data[att_names[4]][0])
+        print(val)
+
+    def get_attribute_values(self, attribute_id):
+        values = []
+        return
+
+    def select_missing_values(self,attribute_id):
+        values = self.get_attribute_values(attribute_id)
+        missing_values_indexes = []
+        for i,elt in enumerate(values) :
+            if elt == "?":
+                missing_values_indexes.append(i)
+
+        return missing_values_indexes
+
+
+    def replace_missing_values(self,attribute_id):
+        #Numeric
+        missing_indexes = self.select_missing_values(attribute_id)
+
+        if self.get_attribute_type(attribute_id) == 0 :
+            #Replacing with the average
+            pass
+
+
+    def attribute_min(self, attribute_id):
         return np.min(self.get_attribute_values(attribute_id))
 
-    def attribute_max(self,attribute_id):
+    def attribute_max(self, attribute_id):
         return np.max(self.get_attribute_values(attribute_id))
 
-    def attribute_median(self,attribute_id):
+    def attribute_median(self, attribute_id):
         return np.median(self.get_attribute_values(attribute_id))
 
-    def attribute_q3(self,attribute_id):
+    def attribute_q3(self, attribute_id):
         return np.quantile(self.get_attribute_values(attribute_id),0.5)
 
-    def attribute_mode(self,attribute_id):
+    def attribute_mode(self, attribute_id):
         pass
 
-    def attribute_mean(self,attribute_id):
+    def attribute_mean(self, attribute_id):
         return np.mean(self.get_attribute_values(attribute_id))
 
     def normalize_data(self):
