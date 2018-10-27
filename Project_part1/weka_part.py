@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 from scipy.io.arff import loadarff
 import numpy as np
+from scipy import stats
 
 class weka_handler:
 
@@ -39,10 +40,6 @@ class weka_handler:
          plt.legend()
          plt.show()
 
-    def attribute_min(self):
-        print(self.dataset.attribute(0).lower_numeric_bound)
-
-
     def get_instance_list(self,index):
         return  str(self.dataset.get_instance(index)).split(",")
 
@@ -68,9 +65,7 @@ class weka_handler:
     def get_attribute_values(self, attribite_id):
         return self.df[self.get_attributes()[attribite_id]]
 
-
     def attribute_min(self, attribute_id):
-        print(self.get_attribute_values(attribute_id))
         return np.min(self.get_attribute_values(attribute_id))
 
     def attribute_max(self, attribute_id):
@@ -83,7 +78,7 @@ class weka_handler:
         return np.quantile(self.get_attribute_values(attribute_id),0.5)
 
     def attribute_mode(self, attribute_id):
-        pass
+        return stats.mode(self.get_attribute_values(attribute_id))[0][0]
 
     def attribute_mean(self, attribute_id):
         return np.mean(self.get_attribute_values(attribute_id))
@@ -103,7 +98,6 @@ class weka_handler:
             return True
         else:
             return False
-
 
 
     def fill_missing_values(self):
