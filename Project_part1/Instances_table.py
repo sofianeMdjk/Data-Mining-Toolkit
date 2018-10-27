@@ -82,15 +82,18 @@ class Instances_table(QWidget):
                j+=1
             i+=1
 
-    def attribute_clicked(self,i):
-        min= str(self.weka_instance.attribute_min(i))
-        max=str(self.weka_instance.attribute_max(i))
-        median=str(self.weka_instance.attribute_median(i))
-        mean=str(self.weka_instance.attribute_mean(i))
-        q3=str(self.weka_instance.attribute_q3(i))
-        message_content = "Minimum value is : "+min+"\nMaximum value is : "+max+"\nMedian is : "+median+"\nMean value is : "+mean+"\nQ3 Value is : "+q3
-        buttonReply = QMessageBox.information(self, 'PyQt5 message', message_content, QMessageBox.Cancel)
-
+    def attribute_clicked(self,attribute_id):
+        if not self.weka_instance.is_nominal(self.weka_instance.get_attributes()[attribute_id]):
+            min= str(self.weka_instance.attribute_min(attribute_id))
+            max=str(self.weka_instance.attribute_max(attribute_id))
+            median=str(self.weka_instance.attribute_median(attribute_id))
+            mean=str(self.weka_instance.attribute_mean(attribute_id))
+            q3=str(self.weka_instance.attribute_q3(attribute_id))
+            message_content = "Minimum value is : "+min+"\nMaximum value is : "+max+"\nMedian is : "+median+"\nMean value is : "+mean+"\nQ3 Value is : "+q3
+            buttonReply = QMessageBox.information(self, 'Attribute details', message_content, QMessageBox.Cancel)
+        else :
+            message_content = "This is a nominal attribute, pick a numerical attribite"
+            buttonReply = QMessageBox.information(self, 'Attribute details', message_content, QMessageBox.Cancel)
     def hist_plot(self):
         self.weka_instance.hist_plot()
 
