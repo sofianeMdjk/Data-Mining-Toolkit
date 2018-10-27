@@ -15,22 +15,27 @@ class weka_handler:
         l = Loader("weka.core.converters.ArffLoader")
         self.dataset = l.load_file(file_path)
         raw_data = loadarff(file_path)
-        self.df_data = pd.DataFrame(raw_data[0])
-        self.get_attribute_type(2)
+        self.df = pd.DataFrame(raw_data[0])
+        self.decode_data()
+        self.df = self.df.replace('?',np.nan)
+        #gp = self.df[self.df["class"] ==b"'goo'"] d
+        self.fill_missing_values()
+        #print(self.df[self.df["class"].isnull()])
+
 
     def save_dataset(self,filepath):
         saver = Saver(classname="weka.core.converters.CSVSaver")
         saver.save_file(self.dataset, filepath)
 
     def hist_plot(self):
-          for att in self.df_data :
+          for att in self.df :
             if att != "class":
-                plt.hist(self.df_data[att], bins= 20, rwidth=0.50, label=att)
+                plt.hist(self.df[att], bins= 20, rwidth=0.50, label=att)
           plt.legend()
           plt.show()
 
     def box_plot(self):
-         data_list = [self.df_data[att] for att in self.df_data if att!="class"]
+         data_list = [self.df[att] for att in self.df if att!="class"]
          print(data_list)
          plt.boxplot(data_list,meanline=True,vert=False)
          plt.legend()
@@ -65,9 +70,9 @@ class weka_handler:
     def get_attribute_values(self, attribute_id):
         return np.array(self.dataset.values(attribute_id))
 
-    def get_attribute_type(self, attribute_id):
-        att_names = list(self.df_data.head(0))
-        val = type(self.df_data[att_names[4]][0])
+    def get_attribute_type(self, attribute):
+
+        val = type(self.df[attribute][0])
         print(val)
 
     def get_attribute_values(self, attribute_id):
@@ -82,16 +87,6 @@ class weka_handler:
                 missing_values_indexes.append(i)
 
         return missing_values_indexes
-
-
-    def replace_missing_values(self,attribute_id):
-        #Numeric
-        missing_indexes = self.select_missing_values(attribute_id)
-
-        if self.get_attribute_type(attribute_id) == 0 :
-            #Replacing with the average
-            pass
-
 
     def attribute_min(self, attribute_id):
         return np.min(self.get_attribute_values(attribute_id))
@@ -111,5 +106,41 @@ class weka_handler:
     def attribute_mean(self, attribute_id):
         return np.mean(self.get_attribute_values(attribute_id))
 
+    def decode_data(self):
+        attributes = self.get_attributes()
+        for att in attributes :
+            if self.df[att].dtypes == "object":
+                self.df[att] = self.df[att].str.decode("utf-8")
+
+
+
     def normalize_data(self):
         print("Data normalize")
+
+    def is_nominal(self,attribite):
+        if self.df[attribite].dtypes == "object" :
+            return True
+
+    def contains_missing_valeus(self,attribute):
+        if not self.df[attribute].isnull().empty:
+            #print(attribute+"-------------------------------------y")
+            #print(self.df[self.df[atribute].isnull()])
+            return True
+        else:
+            return False
+
+
+
+    def fill_missing_values(self):
+        attributes = self.get_attributes()
+        for att in attributes :
+            if self.contains_missing_valeus(att) is True:
+                if self.is_nominal(att):
+                    mode_value = self.df[att].mode()[0]
+                    print(mode_value)
+                    self.df[att] = self.df[att].fillna(value=str(mode_value))
+                else :
+                    avg_value = self.df[att].mean()
+                    self.df[att] = self.df[att].fillna(value=avg_value)
+
+            print(self.df[att])

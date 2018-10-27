@@ -10,6 +10,8 @@ class Instances_table(QWidget):
         self.vlayout2= QVBoxLayout(self)
         self.weka_instance=wk
         self.dataset=self.weka_instance.dataset
+       # self.update_table(self.weka_instance.df)
+
 
         #Vertical layout 1
         self.instances_table = QTableWidget()
@@ -41,6 +43,10 @@ class Instances_table(QWidget):
         self.attributes_box.currentIndexChanged.connect(self.attribute_clicked)
         self.vlayout2.addWidget(self.attributes_box)
 
+        self.missing_values_button = QPushButton("Replace Missing values")
+        self.missing_values_button.clicked.connect(self.replace_missing_values)
+        self.vlayout2.addWidget(self.missing_values_button)
+
         self.normalize_button = QPushButton("Normalize dataset")
         self.normalize_button.clicked.connect(self.normalize_data)
         self.vlayout2.addWidget(self.normalize_button)
@@ -59,6 +65,15 @@ class Instances_table(QWidget):
         self.hlayout.addLayout(self.vlayout2)
 
         self.setLayout(self.hlayout)
+
+    def update_table(self):
+        i=0
+        for key in list(self.weka_instance.df.head(0)):
+            j=0
+            for item in self.weka_instance.df[key]:
+                self.instances_table.setItem(i, j, QTableWidgetItem(item))
+                j+=1
+            i+=1
 
     def fill_table(self,instances):
         i=0
@@ -89,6 +104,10 @@ class Instances_table(QWidget):
 
     def normalize_data(self):
         self.weka_instance.normalize_data()
+
+    def replace_missing_values(self):
+        self.weka_instance.fill_missing_values()
+        self.update_table()
 
     def cellClick(self):
         print("Cell click in here")
