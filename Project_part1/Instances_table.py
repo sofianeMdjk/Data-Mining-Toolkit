@@ -90,9 +90,6 @@ class Instances_table(QWidget):
         q3=str(self.weka_instance.attribute_q3(i))
         message_content = "Minimum value is : "+min+"\nMaximum value is : "+max+"\nMedian is : "+median+"\nMean value is : "+mean+"\nQ3 Value is : "+q3
         buttonReply = QMessageBox.information(self, 'PyQt5 message', message_content, QMessageBox.Cancel)
-        print(int(buttonReply))
-        print("attribute changed")
-        print(self.weka_instance.attribute_min(i))
 
     def hist_plot(self):
         self.weka_instance.hist_plot()

@@ -27,15 +27,14 @@ class weka_handler:
 
     def hist_plot(self):
           for att in self.df :
-            if att != "class":
+              if not self.is_nominal(att) :
                 plt.hist(self.df[att], bins= 20, rwidth=0.50, label=att)
                 #plt.hist(self.df[att])
           plt.legend()
           plt.show()
 
     def box_plot(self):
-         data_list = [self.df[att] for att in self.df if att!="class"]
-         print(data_list)
+         data_list = [self.df[att] for att in self.df if not self.is_nominal(att)]
          plt.boxplot(data_list,meanline=True,vert=False)
          plt.legend()
          plt.show()
