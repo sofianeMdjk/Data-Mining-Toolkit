@@ -54,7 +54,6 @@ class Interface(QMainWindow):
     def table_load(self):
         self.table_widget = Instances_table(self.weka)
         self.setCentralWidget (self.table_widget)
-        self.table_widget.fill_table(self.weka.get_instances())
 
     def handle_ds_save(self):
         self.weka.save_dataset("iris.csv")

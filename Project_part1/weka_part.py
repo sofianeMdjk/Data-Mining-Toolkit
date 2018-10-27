@@ -70,23 +70,6 @@ class weka_handler:
     def get_attribute_values(self, attribute_id):
         return np.array(self.dataset.values(attribute_id))
 
-    def get_attribute_type(self, attribute):
-
-        val = type(self.df[attribute][0])
-        print(val)
-
-    def get_attribute_values(self, attribute_id):
-        values = []
-        return
-
-    def select_missing_values(self,attribute_id):
-        values = self.get_attribute_values(attribute_id)
-        missing_values_indexes = []
-        for i,elt in enumerate(values) :
-            if elt == "?":
-                missing_values_indexes.append(i)
-
-        return missing_values_indexes
 
     def attribute_min(self, attribute_id):
         return np.min(self.get_attribute_values(attribute_id))
@@ -112,19 +95,12 @@ class weka_handler:
             if self.df[att].dtypes == "object":
                 self.df[att] = self.df[att].str.decode("utf-8")
 
-
-
-    def normalize_data(self):
-        print("Data normalize")
-
     def is_nominal(self,attribite):
         if self.df[attribite].dtypes == "object" :
             return True
 
     def contains_missing_valeus(self,attribute):
         if not self.df[attribute].isnull().empty:
-            #print(attribute+"-------------------------------------y")
-            #print(self.df[self.df[atribute].isnull()])
             return True
         else:
             return False

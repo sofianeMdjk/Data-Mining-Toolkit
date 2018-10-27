@@ -10,7 +10,6 @@ class Instances_table(QWidget):
         self.vlayout2= QVBoxLayout(self)
         self.weka_instance=wk
         self.dataset=self.weka_instance.dataset
-       # self.update_table(self.weka_instance.df)
 
 
         #Vertical layout 1
@@ -19,7 +18,6 @@ class Instances_table(QWidget):
         self.instances_table.setColumnCount(self.dataset.num_attributes)
         self.instances_table.setHorizontalHeaderLabels(self.weka_instance.get_attributes())
         self.instances_table.setSelectionBehavior(QTableView.SelectRows)
-        self.instances_table.clicked.connect(self.cellClick)
         self.vlayout1.addWidget(self.instances_table)
 
         #Vertical layout 2
@@ -47,10 +45,6 @@ class Instances_table(QWidget):
         self.missing_values_button.clicked.connect(self.replace_missing_values)
         self.vlayout2.addWidget(self.missing_values_button)
 
-        self.normalize_button = QPushButton("Normalize dataset")
-        self.normalize_button.clicked.connect(self.normalize_data)
-        self.vlayout2.addWidget(self.normalize_button)
-
         self.hist_button = QPushButton("Draw histogram")
         self.hist_button.clicked.connect(self.hist_plot)
         self.vlayout2.addWidget(self.hist_button)
@@ -65,6 +59,8 @@ class Instances_table(QWidget):
         self.hlayout.addLayout(self.vlayout2)
 
         self.setLayout(self.hlayout)
+
+        self.fill_table(self.weka_instance.get_instances())
 
     def update_table(self):
         self.instances_table.setRowCount(0);
@@ -104,13 +100,8 @@ class Instances_table(QWidget):
     def box_plot(self):
         self.weka_instance.box_plot()
 
-    def normalize_data(self):
-        self.weka_instance.normalize_data()
-
     def replace_missing_values(self):
         self.weka_instance.fill_missing_values()
         self.update_table()
 
-    def cellClick(self):
-        print("Cell click in here")
 
