@@ -137,10 +137,8 @@ class weka_handler:
             if self.contains_missing_valeus(att) is True:
                 if self.is_nominal(att):
                     mode_value = self.df[att].mode()[0]
-                    print(mode_value)
                     self.df[att] = self.df[att].fillna(value=str(mode_value))
                 else :
                     avg_value = self.df[att].mean()
                     self.df[att] = self.df[att].fillna(value=avg_value)
 
-            print(self.df[att])

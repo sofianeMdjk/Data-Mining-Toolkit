@@ -67,11 +67,13 @@ class Instances_table(QWidget):
         self.setLayout(self.hlayout)
 
     def update_table(self):
+        self.instances_table.setRowCount(0);
+        self.instances_table.setRowCount(self.dataset.num_instances)
         i=0
         for key in list(self.weka_instance.df.head(0)):
             j=0
             for item in self.weka_instance.df[key]:
-                self.instances_table.setItem(i, j, QTableWidgetItem(item))
+                self.instances_table.setItem(j, i, QTableWidgetItem(str(item)))
                 j+=1
             i+=1
 
