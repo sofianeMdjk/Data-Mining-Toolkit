@@ -18,9 +18,7 @@ class weka_handler:
         self.df = pd.DataFrame(raw_data[0])
         self.decode_data()
         self.df = self.df.replace('?',np.nan)
-        #gp = self.df[self.df["class"] ==b"'goo'"] d
         self.fill_missing_values()
-        #print(self.df[self.df["class"].isnull()])
 
 
     def save_dataset(self,filepath):
@@ -31,6 +29,7 @@ class weka_handler:
           for att in self.df :
             if att != "class":
                 plt.hist(self.df[att], bins= 20, rwidth=0.50, label=att)
+                #plt.hist(self.df[att])
           plt.legend()
           plt.show()
 
@@ -67,11 +66,12 @@ class weka_handler:
             attributes.append(self.dataset.attribute(i).name)
         return attributes
 
-    def get_attribute_values(self, attribute_id):
-        return np.array(self.dataset.values(attribute_id))
+    def get_attribute_values(self, attribite_id):
+        return self.df[self.get_attributes()[attribite_id]]
 
 
     def attribute_min(self, attribute_id):
+        print(self.get_attribute_values(attribute_id))
         return np.min(self.get_attribute_values(attribute_id))
 
     def attribute_max(self, attribute_id):
