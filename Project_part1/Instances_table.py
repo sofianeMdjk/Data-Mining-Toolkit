@@ -105,7 +105,7 @@ class Instances_table(QWidget):
         self.weka_instance.box_plot()
 
     def replace_missing_values(self):
-        self.weka_instance.fill_missing_values()
+        self.weka_instance.fill_missing_values_class_dependant()
         self.update_table()
 
 

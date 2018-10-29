@@ -1,10 +1,12 @@
 import weka.core.jvm as jvm
+from pandas.io.pytables import attribute_conflict_doc
 from weka.core.converters import Loader, Saver
 import matplotlib.pyplot as plt
 import pandas as pd
 from scipy.io.arff import loadarff
 import numpy as np
 from scipy import stats
+from utils import unique
 
 class weka_handler:
 
@@ -19,8 +21,6 @@ class weka_handler:
         self.df = pd.DataFrame(raw_data[0])
         self.decode_data()
         self.df = self.df.replace('?',np.nan)
-        self.fill_missing_values()
-
 
     def save_dataset(self,filepath):
         saver = Saver(classname="weka.core.converters.CSVSaver")
@@ -30,7 +30,6 @@ class weka_handler:
           for att in self.df :
               if not self.is_nominal(att) :
                 plt.hist(self.df[att], bins= 20, rwidth=0.50, label=att)
-                #plt.hist(self.df[att])
           plt.legend()
           plt.show()
 
@@ -41,7 +40,7 @@ class weka_handler:
          plt.show()
 
     def get_instance_list(self,index):
-        return  str(self.dataset.get_instance(index)).split(",")
+        return str(self.dataset.get_instance(index)).split(",")
 
     def get_instances(self):
         instances = {}
@@ -55,6 +54,12 @@ class weka_handler:
             return True
         else:
             return False
+
+    def get_classes(self):
+        if self.dataset_labelized():
+            return unique(self.df['class'])
+        else :
+            return []
 
     def get_attributes(self):
         attributes = []
@@ -89,8 +94,20 @@ class weka_handler:
             if self.df[att].dtypes == "object":
                 self.df[att] = self.df[att].str.decode("utf-8")
 
+    def mean_calcul_missing(self,attribute,item_class):
+        values = self.get_attribute_value_by_class(attribute,item_class)
+        return np.mean(values)
+
+    def mode_calcul_missing(self,attribute,item_class):
+        values = self.get_attribute_value_by_class(attribute, item_class)
+        return values.mode()[0]
+
+    def get_attribute_value_by_class(self, att, item_class):
+        temp = self.df.loc[self.df["class"] == item_class, att]
+        return temp
+
     def is_nominal(self,attribite):
-        if self.df[attribite].dtypes == "object" :
+        if self.df[attribite].dtypes == "object":
             return True
 
     def contains_missing_valeus(self,attribute):
@@ -98,6 +115,19 @@ class weka_handler:
             return True
         else:
             return False
+
+    def fill_missing_values_class_dependant(self):
+        attributes = self.get_attributes()
+        classes = self.get_classes()
+        for att in attributes:
+            if self.contains_missing_valeus(att) is True:
+                for class_item in classes:
+                    if self.is_nominal(att):
+                        mode_value = self.mode_calcul_missing(att,class_item)
+                        self.df.loc[self.df["class"] == class_item, att] = self.df.loc[self.df["class"]== class_item,att].fillna(value=str(mode_value))
+                    else :
+                        avg_value = self.mean_calcul_missing(att,class_item)
+                        self.df.loc[self.df["class"] == class_item,att] = self.df.loc[self.df["class"]== class_item,att].fillna(value=str(avg_value))
 
 
     def fill_missing_values(self):
@@ -110,4 +140,3 @@ class weka_handler:
                 else :
                     avg_value = self.df[att].mean()
                     self.df[att] = self.df[att].fillna(value=avg_value)
-
