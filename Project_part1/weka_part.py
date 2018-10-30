@@ -91,24 +91,20 @@ class weka_handler:
 
 
     def normalize_dataset(self):
-        x = []
         attributes = self.get_attributes()
         for att in attributes :
-            print(self.df[att].dtypes)
             if not self.is_nominal(att):
-                x = [self.df[att].values]
-                print(x)
+                x = pd.DataFrame({att : self.df[att]})
                 min_max_scalar = preprocessing.MinMaxScaler()
                 scaled = min_max_scalar.fit_transform(x)
-                #print(scaled)
+                print(scaled)
                 self.df[att] = pd.DataFrame(scaled)
 
     def attribute_is_semetrical(self,attribute_id):
         if not self.is_nominal(self.get_attributes()[attribute_id]):
             mean,mode,median = self.attribute_mean(attribute_id), \
                                self.attribute_mode(attribute_id), self.attribute_median(attribute_id)
-
-            if  mean == mode == median:
+            if mean == mode == median:
                 return True
             else :
                 return False
