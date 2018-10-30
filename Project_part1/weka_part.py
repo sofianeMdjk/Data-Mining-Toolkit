@@ -6,6 +6,7 @@ import pandas as pd
 from scipy.io.arff import loadarff
 import numpy as np
 from scipy import stats
+from sklearn import preprocessing
 from utils import unique
 
 class weka_handler:
@@ -88,6 +89,20 @@ class weka_handler:
     def attribute_mean(self, attribute_id):
         return np.mean(self.get_attribute_values(attribute_id))
 
+
+    def normalize_dataset(self):
+        x = []
+        attributes = self.get_attributes()
+        for att in attributes :
+            print(self.df[att].dtypes)
+            if not self.is_nominal(att):
+                x = [self.df[att].values]
+                print(x)
+                min_max_scalar = preprocessing.MinMaxScaler()
+                scaled = min_max_scalar.fit_transform(x)
+                #print(scaled)
+                self.df[att] = pd.DataFrame(scaled)
+
     def attribute_is_semetrical(self,attribute_id):
         if not self.is_nominal(self.get_attributes()[attribute_id]):
             mean,mode,median = self.attribute_mean(attribute_id), \
@@ -157,7 +172,7 @@ class weka_handler:
                         self.df.loc[self.df["class"] == class_item, att] = self.df.loc[self.df["class"]== class_item,att].fillna(value=str(mode_value))
                     else :
                         avg_value = self.mean_calcul_missing(att,class_item)
-                        self.df.loc[self.df["class"] == class_item,att] = self.df.loc[self.df["class"]== class_item,att].fillna(value=str(avg_value))
+                        self.df.loc[self.df["class"] == class_item,att] = self.df.loc[self.df["class"]== class_item,att].fillna(value=str(avg_value)).values.astype(float)
 
 
     def fill_missing_values(self):
