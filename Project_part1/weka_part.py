@@ -28,7 +28,7 @@ class weka_handler:
 
     def hist_plot(self):
           for att in self.df :
-              if not self.is_nominal(att) :
+              if not self.is_nominal(att):
                 plt.hist(self.df[att], bins= 20, rwidth=0.50, label=att)
           plt.legend()
           plt.show()
@@ -87,6 +87,36 @@ class weka_handler:
 
     def attribute_mean(self, attribute_id):
         return np.mean(self.get_attribute_values(attribute_id))
+
+    def attribute_is_semetrical(self,attribute_id):
+        if not self.is_nominal(self.get_attributes()[attribute_id]):
+            mean,mode,median = self.attribute_mean(attribute_id), \
+                               self.attribute_mode(attribute_id), self.attribute_median(attribute_id)
+
+            if  mean == mode == median:
+                return True
+            else :
+                return False
+
+    def attribute_is_neg_skewed(self, attribute_id):
+        if not self.is_nominal(self.get_attributes()[attribute_id]):
+            mean, mode, median = self.attribute_mean(attribute_id), \
+                                 self.attribute_mode(attribute_id), self.attribute_median(attribute_id)
+
+            if (median < mode) and (mode < mean):
+                return True
+            else :
+                return False
+
+    def attribute_is_pos_skewed(self, attribute_id):
+        if not self.is_nominal(self.get_attributes()[attribute_id]):
+            mean, mode, median = self.attribute_mean(attribute_id), \
+                                 self.attribute_mode(attribute_id), self.attribute_median(attribute_id)
+
+            if (median > mode) and (mode > mean):
+                return True
+            else :
+                return False
 
     def decode_data(self):
         attributes = self.get_attributes()
