@@ -94,8 +94,14 @@ class Instances_table(QWidget):
             mean = str(self.weka_instance.attribute_mean(attribute_id))
             q3 = str(self.weka_instance.attribute_q3(attribute_id))
             mode = str(self.weka_instance.attribute_mode(attribute_id))
+            simeterical = self.weka_instance.attribute_is_semetrical(attribute_id)
+            message_sim = ""
+            if simeterical is True:
+                message_sim = "This attribute is simetrical"
+            else :
+                message_sim = "This attribute is not simetrical"
             message_content = "Minimum value is : "+min+"\nMaximum value is : "+max+"\nMedian is : "\
-                              +median+"\nMean value is : "+mean+"\nQ3 Value is : "+q3+"\nMode is : "+mode
+                              +median+"\nMean value is : "+mean+"\nQ3 Value is : "+q3+"\nMode is : "+mode+"\n"+message_sim
             buttonReply = QMessageBox.information(self, 'Attribute details', message_content, QMessageBox.Cancel)
         else :
             mode = str(self.weka_instance.attribute_mode(attribute_id))
