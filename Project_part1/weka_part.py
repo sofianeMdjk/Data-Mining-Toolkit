@@ -96,7 +96,6 @@ class weka_handler:
                 x = pd.DataFrame({att : self.df[att]})
                 min_max_scalar = preprocessing.MinMaxScaler()
                 scaled = min_max_scalar.fit_transform(x)
-                print(scaled)
                 self.df[att] = pd.DataFrame(scaled)
 
     def attribute_is_semetrical(self,attribute_id):

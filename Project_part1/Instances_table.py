@@ -100,8 +100,20 @@ class Instances_table(QWidget):
                 message_sim = "This attribute is simetrical"
             else :
                 message_sim = "This attribute is not simetrical"
+            neg_skewed = self.weka_instance.attribute_is_neg_skewed(attribute_id)
+            message_neg=""
+            if neg_skewed is True:
+                message_neg = "This attribute is negatively skewed"
+
+            pos_skewed = self.weka_instance.attribute_is_pos_skewed(attribute_id)
+            message_pos =""
+
+            if pos_skewed is True:
+                message_pos = "This attribute is positively skewed"
+
             message_content = "Minimum value is : "+min+"\nMaximum value is : "+max+"\nMedian is : "\
-                              +median+"\nMean value is : "+mean+"\nQ3 Value is : "+q3+"\nMode is : "+mode+"\n"+message_sim
+                              +median+"\nMean value is : "+mean+"\nQ3 Value is : "+q3+"\nMode is : "+mode+"\n"\
+                              +message_sim+"\n"+message_neg+"\n"+message_pos
             buttonReply = QMessageBox.information(self, 'Attribute details', message_content, QMessageBox.Cancel)
         else :
             mode = str(self.weka_instance.attribute_mode(attribute_id))
