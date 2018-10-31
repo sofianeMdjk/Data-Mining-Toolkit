@@ -15,7 +15,7 @@ class Interface(QMainWindow):
     def init_interface(self):
         #main interface
         self.setGeometry(500, 175, 800, 800)
-        self.setWindowTitle("My Weka")
+        self.setWindowTitle("Data Set Visualization")
         self.table_widget = None
 
 

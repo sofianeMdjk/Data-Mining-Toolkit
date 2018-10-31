@@ -1,5 +1,4 @@
 import weka.core.jvm as jvm
-from pandas.io.pytables import attribute_conflict_doc
 from weka.core.converters import Loader, Saver
 import matplotlib.pyplot as plt
 import pandas as pd
