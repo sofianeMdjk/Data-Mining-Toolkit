@@ -33,19 +33,25 @@ class weka_handler:
           plt.legend()
           plt.show()
 
+    def hist_attribute_plot(self,attribute_id):
+        attribute = self.get_attributes()[attribute_id]
+        plt.hist(self.df[attribute],bins= 20, rwidth=0.50, label=attribute)
+        plt.legend()
+        plt.show()
+
     def box_plot(self):
          data_list = [self.df[att] for att in self.df if not self.is_nominal(att)]
          plt.boxplot(data_list,meanline=True,vert=False)
          plt.legend()
          plt.show()
 
-    def get_instance_list(self,index):
+    def get_instance_list(self, index):
         return str(self.dataset.get_instance(index)).split(",")
 
     def get_instances(self):
         instances = {}
         for i in range(0,self.dataset.num_instances):
-            instances[i]=self.get_instance_list(i)
+            instances[i] = self.get_instance_list(i)
         return instances
 
     def dataset_labelized(self):
@@ -88,7 +94,6 @@ class weka_handler:
     def attribute_mean(self, attribute_id):
         return np.mean(self.get_attribute_values(attribute_id))
 
-
     def normalize_dataset(self):
         attributes = self.get_attributes()
         for att in attributes :
@@ -101,35 +106,38 @@ class weka_handler:
     def attribute_is_semetrical(self,attribute_id):
         if not self.is_nominal(self.get_attributes()[attribute_id]):
             mean,mode,median = self.attribute_mean(attribute_id), \
-                               self.attribute_mode(attribute_id), self.attribute_median(attribute_id)
+                               self.attribute_mode(attribute_id), \
+                               self.attribute_median(attribute_id)
             if mean == mode == median:
                 return True
-            else :
+            else:
                 return False
 
     def attribute_is_neg_skewed(self, attribute_id):
         if not self.is_nominal(self.get_attributes()[attribute_id]):
             mean, mode, median = self.attribute_mean(attribute_id), \
-                                 self.attribute_mode(attribute_id), self.attribute_median(attribute_id)
+                                 self.attribute_mode(attribute_id), \
+                                 self.attribute_median(attribute_id)
 
             if (median < mode) and (mode < mean):
                 return True
-            else :
+            else:
                 return False
 
     def attribute_is_pos_skewed(self, attribute_id):
         if not self.is_nominal(self.get_attributes()[attribute_id]):
             mean, mode, median = self.attribute_mean(attribute_id), \
-                                 self.attribute_mode(attribute_id), self.attribute_median(attribute_id)
+                                 self.attribute_mode(attribute_id), \
+                                 self.attribute_median(attribute_id)
 
             if (median > mode) and (mode > mean):
                 return True
-            else :
+            else:
                 return False
 
     def decode_data(self):
         attributes = self.get_attributes()
-        for att in attributes :
+        for att in attributes:
             if self.df[att].dtypes == "object":
                 self.df[att] = self.df[att].str.decode("utf-8")
 

@@ -53,6 +53,13 @@ class Instances_table(QWidget):
         self.hist_button.clicked.connect(self.hist_plot)
         self.vlayout2.addWidget(self.hist_button)
 
+        self.attributes_box_hist = QComboBox()
+        attributes = self.weka_instance.get_attributes()
+        attributes.remove("class")
+        self.attributes_box_hist.addItems(attributes)
+        self.attributes_box_hist.currentIndexChanged.connect(self.attribute_hist)
+        self.vlayout2.addWidget(self.attributes_box_hist)
+
         self.box_button = QPushButton("Draw box plot")
         self.box_button.clicked.connect(self.box_plot)
         self.vlayout2.addWidget(self.box_button)
@@ -95,7 +102,6 @@ class Instances_table(QWidget):
             q3 = str(self.weka_instance.attribute_q3(attribute_id))
             mode = str(self.weka_instance.attribute_mode(attribute_id))
             simeterical = self.weka_instance.attribute_is_semetrical(attribute_id)
-            message_sim = ""
             if simeterical is True:
                 message_sim = "This attribute is simetrical"
             else :
@@ -135,3 +141,5 @@ class Instances_table(QWidget):
         self.update_table()
 
 
+    def attribute_hist(self,attribite_id):
+        self.weka_instance.hist_attribute_plot(attribite_id)
