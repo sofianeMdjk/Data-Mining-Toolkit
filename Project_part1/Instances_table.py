@@ -1,7 +1,8 @@
 
-from PyQt5.QtWidgets import QTableView,QWidget,QTableWidget,QTableWidgetItem,\
-    QVBoxLayout,QHBoxLayout,QPushButton,QComboBox, QMessageBox, QLabel
-import matplotlib.pyplot as plt
+from PyQt5.QtWidgets import QTableView, QWidget, QTableWidget, QTableWidgetItem, \
+    QVBoxLayout, QHBoxLayout, QPushButton, QComboBox, QMessageBox, QLabel, QFileDialog
+from weka_part import weka_handler
+
 class Instances_table(QWidget):
     def __init__(self,wk):
         super(Instances_table, self).__init__()
@@ -9,18 +10,21 @@ class Instances_table(QWidget):
         self.vlayout1 = QVBoxLayout(self)
         self.vlayout2= QVBoxLayout(self)
         self.weka_instance=wk
-        self.dataset=self.weka_instance.dataset
-
 
         #Vertical layout 1
         self.instances_table = QTableWidget()
-        self.instances_table.setRowCount(self.dataset.num_instances)
-        self.instances_table.setColumnCount(self.dataset.num_attributes)
-        self.instances_table.setHorizontalHeaderLabels(self.weka_instance.get_attributes())
         self.instances_table.setSelectionBehavior(QTableView.SelectRows)
         self.vlayout1.addWidget(self.instances_table)
 
         #Vertical layout 2
+
+        #self.dataset_name_label = QLabel()
+        #text = "Dataset name : "+self.weka_instance.dataset_name
+        #self.self.dataset_name_label.setText(text)
+        #self.vlayout2.addWidget(self.self.dataset_name_label)
+
+        self.load_button = QPushButton("Load Dataset")
+        self.load_button.clicked.connect(self.load_dataset)
 
         self.attributes_label = QLabel()
         text = "Number of attributes is : "
@@ -73,9 +77,21 @@ class Instances_table(QWidget):
 
         self.fill_table(self.weka_instance.get_instances())
 
+    def load_dataset(self):
+        options = QFileDialog.Options()
+        options |= QFileDialog.DontUseNativeDialog
+        fileName, _ = QFileDialog.getOpenFileName(self, "QFileDialog.getOpenFileName()", "",
+                                                  "All Files (*);;Python Files (*.py)", options=options)
+        file_path = fileName
+        self.weka_instance.load_dataset(file_path)
+        self.dataset = self.weka_instance.dataset
+
     def update_table(self):
         self.instances_table.setRowCount(0);
         self.instances_table.setRowCount(self.dataset.num_instances)
+        self.instances_table.setColumnCount(self.dataset.num_attributes)
+        self.instances_table.setHorizontalHeaderLabels(self.weka_instance.get_attributes())
+
         i=0
         for key in list(self.weka_instance.df.head(0)):
             j=0
@@ -120,11 +136,11 @@ class Instances_table(QWidget):
             message_content = "Minimum value is : "+min+"\nMaximum value is : "+max+"\nMedian is : "\
                               +median+"\nMean value is : "+mean+"\nQ3 Value is : "+q3+"\nMode is : "+mode+"\n"\
                               +message_sim+"\n"+message_neg+"\n"+message_pos
-            buttonReply = QMessageBox.information(self, 'Attribute details', message_content, QMessageBox.Cancel)
+            QMessageBox.information(self, 'Attribute details', message_content, QMessageBox.Cancel)
         else :
             mode = str(self.weka_instance.attribute_mode(attribute_id))
             message_content = "Mode is : "+mode+"\nPick a numerical attribite for more statistical details"
-            buttonReply = QMessageBox.information(self, 'Attribute details', message_content, QMessageBox.Cancel)
+            QMessageBox.information(self, 'Attribute details', message_content, QMessageBox.Cancel)
 
     def hist_plot(self):
         self.weka_instance.hist_plot()
@@ -139,7 +155,6 @@ class Instances_table(QWidget):
     def normalize_dataset(self):
         self.weka_instance.normalize_dataset()
         self.update_table()
-
 
     def attribute_hist(self,attribite_id):
         self.weka_instance.hist_attribute_plot(attribite_id)

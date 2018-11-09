@@ -1,11 +1,11 @@
 import sys
 from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton, QFileDialog, QComboBox, QAction, qApp, QHBoxLayout, \
-    QVBoxLayout
+    QVBoxLayout, QTabWidget
 from weka_part import weka_handler
 from Instances_table import Instances_table
 
 
-class Interface(QMainWindow):
+class Interface(QTabWidget):
 
     def __init__(self):
         super().__init__()
@@ -19,38 +19,45 @@ class Interface(QMainWindow):
         self.table_widget = None
 
 
+
         #Menubar
         #file actions
-        load_ds_action = QAction("Load dataset", self)
-        load_ds_action.setShortcut('Ctrl+o')
-        load_ds_action.triggered.connect(self.handle_load_dataset)
-        save_ds_action= QAction("Save dataset informations",self)
-        save_ds_action.setShortcut('Ctrl+s')
-        save_ds_action.triggered.connect(self.handle_load_dataset)
-        exit_action = QAction('Exit',self)
-        exit_action.triggered.connect(qApp.quit)
+        #load_ds_action = QAction("Load dataset", self)
+        #load_ds_action.setShortcut('Ctrl+o')
+        #load_ds_action.triggered.connect(self.handle_load_dataset)
+        #save_ds_action= QAction("Save dataset informations",self)
+        #save_ds_action.setShortcut('Ctrl+s')
+        #save_ds_action.triggered.connect(self.handle_load_dataset)
+        #exit_action = QAction('Exit',self)
+        #exit_action.triggered.connect(qApp.quit)
 
 
         #dataset actions
-        replace_missing = QAction("Replace missing values",self)
-        replace_missing.setShortcut('Ctrl+r')
-        replace_missing.triggered.connect(self.handle_replace)
+        #replace_missing = QAction("Replace missing values",self)
+        #replace_missing.setShortcut('Ctrl+r')
+        #replace_missing.triggered.connect(self.handle_replace)
 
-        draw_histo = QAction("Draw histogram",self)
-        draw_histo.setShortcut('ctrl+h')
+        #draw_histo = QAction("Draw histogram",self)
+        #draw_histo.setShortcut('ctrl+h')
 
-        draw_box_plot = QAction("Draw box plot",self)
-        draw_box_plot.setShortcut("ctrl+b")
+        #draw_box_plot = QAction("Draw box plot",self)
+        #draw_box_plot.setShortcut("ctrl+b")
 
-        mainMenu = self.menuBar()
+        #mainMenu = self.menuBar()
 
-        fileMenu = mainMenu.addMenu('&File')
-        fileMenu.addAction(load_ds_action)
-        fileMenu.addAction(save_ds_action)
-        fileMenu.addAction(exit_action)
+        #fileMenu = mainMenu.addMenu('&File')
+        #fileMenu.addAction(load_ds_action)
+        #fileMenu.addAction(save_ds_action)
+        #fileMenu.addAction(exit_action)
 
-        actionMenu = mainMenu.addMenu('&Actions')
-        actionMenu.addAction(replace_missing)
+        #actionMenu = mainMenu.addMenu('&Actions')
+        #actionMenu.addAction(replace_missing)
+
+        #tabs
+
+        self.weka = weka_handler()
+        self.weka_tab = Instances_table(self.weka)
+        self.addTab(self.weka_tab)
 
         self.show()
 
