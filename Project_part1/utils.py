@@ -9,3 +9,8 @@ def unique(list1):
             unique_list.append(x)
             # print list
     return unique_list
+
+def clean_list(l):
+    l[-1] = (l[-1].split("\n"))[0]
+    return l
+
