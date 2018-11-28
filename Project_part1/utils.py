@@ -9,3 +9,10 @@ def unique(list1):
             unique_list.append(x)
             # print list
     return unique_list
+
+def get_box_numerical_values():
+    values = []
+    for i in range(20):
+        values.append(5*i)
+    return values
+
