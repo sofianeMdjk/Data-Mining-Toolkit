@@ -64,6 +64,10 @@ class Instances_table(QWidget):
         self.box_button.clicked.connect(self.box_plot)
         self.vlayout2.addWidget(self.box_button)
 
+        self.apriori_button = QPushButton("Configure Apriori Algorithm")
+        self.apriori_button.clicked.connect(self.apriori_configure)
+        self.vlayout2.addWidget(self.apriori_button)
+
         #Horizental layout
 
         self.hlayout.addLayout(self.vlayout1)
@@ -140,6 +144,9 @@ class Instances_table(QWidget):
         self.weka_instance.normalize_dataset()
         self.update_table()
 
-
     def attribute_hist(self,attribite_id):
         self.weka_instance.hist_attribute_plot(attribite_id)
+
+    def apriori_configure(self):
+        #Creating a modal to launch apriori algo
+        pass
