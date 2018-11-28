@@ -1,8 +1,7 @@
 import sys
-from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton, QFileDialog, QComboBox, QAction, qApp, QHBoxLayout, \
-    QVBoxLayout
-from weka_part import weka_handler
-from Instances_table import Instances_table
+from PyQt5.QtWidgets import QApplication, QMainWindow, QFileDialog, QAction, qApp
+from weka_manager.weka_part import weka_handler
+from gui.Instances_table import Instances_table
 
 
 class Interface(QMainWindow):
