@@ -187,3 +187,6 @@ class weka_handler:
                 else :
                     avg_value = self.df[att].mean()
                     self.df[att] = self.df[att].fillna(value=avg_value)
+
+    def get_df(self):
+        return self.df

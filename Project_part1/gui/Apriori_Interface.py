@@ -3,12 +3,12 @@ from PyQt5.QtWidgets import QWidget,\
 import utils
 
 class Apriori_Interface(QWidget):
-    def __init__(self,prepared_ds):
+    def __init__(self,ds_path):
         super(Apriori_Interface, self).__init__()
         self.hlayout = QHBoxLayout(self)
         self.vlayout1 = QVBoxLayout(self)
         self.vlayout2 = QVBoxLayout(self)
-        self.dataset = prepared_ds
+        self.ds = ds_path
 
         #1st Vertical layout contains support and confidence settings
         self.support_layout = QHBoxLayout(self)

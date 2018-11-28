@@ -36,7 +36,7 @@ class Instances_table(QWidget):
 
         self.attributes_box = QComboBox()
         attributes = self.weka_instance.get_attributes()
-        attributes.remove("class")
+        attributes.remove(attributes[-1])
         self.attributes_box.addItems(attributes)
         self.attributes_box.currentIndexChanged.connect(self.attribute_clicked)
         self.vlayout2.addWidget(self.attributes_box)
@@ -55,7 +55,7 @@ class Instances_table(QWidget):
 
         self.attributes_box_hist = QComboBox()
         attributes = self.weka_instance.get_attributes()
-        attributes.remove("class")
+        attributes.remove(attributes[-1])
         self.attributes_box_hist.addItems(attributes)
         self.attributes_box_hist.currentIndexChanged.connect(self.attribute_hist)
         self.vlayout2.addWidget(self.attributes_box_hist)
@@ -148,5 +148,7 @@ class Instances_table(QWidget):
         self.weka_instance.hist_attribute_plot(attribite_id)
 
     def apriori_configure(self):
+        df = self.weka_instance.get_df()
+        df.to_csv("../tmp/temp.csv")
         #Creating a modal to launch apriori algo
         pass
