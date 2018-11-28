@@ -149,6 +149,6 @@ class Instances_table(QWidget):
 
     def apriori_configure(self):
         df = self.weka_instance.get_df()
-        df.to_csv("../tmp/temp.csv")
+        df.to_csv("tmp/temp.csv",sep=",",encoding="utf-8")
         #Creating a modal to launch apriori algo
         pass
