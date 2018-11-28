@@ -1,7 +1,7 @@
-
 from PyQt5.QtWidgets import QTableView,QWidget,QTableWidget,QTableWidgetItem,\
     QVBoxLayout,QHBoxLayout,QPushButton,QComboBox, QMessageBox, QLabel
-import matplotlib.pyplot as plt
+from gui.Apriori_Interface import Apriori_Interface
+
 class Instances_table(QWidget):
     def __init__(self,wk):
         super(Instances_table, self).__init__()
@@ -149,6 +149,10 @@ class Instances_table(QWidget):
 
     def apriori_configure(self):
         df = self.weka_instance.get_df()
-        df.to_csv("tmp/temp.csv",sep=",",encoding="utf-8")
+        path = "tmp/temp.csv"
+        df.to_csv(path,sep=",",encoding="utf-8")
         #Creating a modal to launch apriori algo
-        pass
+        self.apriori_window = Apriori_Interface(path)
+        self.apriori_window.setGeometry(400, 300, 800, 800)
+        self.apriori_window.show()
+

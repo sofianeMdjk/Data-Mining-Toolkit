@@ -27,7 +27,7 @@ class Apriori_Interface(QWidget):
         self.support_layout.addWidget(self.support_edit)
 
         #Confidence items
-        self.confidence_label = QLabel("Select the confidence percentage %")
+        self.confidence_label = QLabel("Select confidence percentage % ")
         self.confidence_layout.addWidget(self.confidence_label)
 
         self.confidence_box = QComboBox()
@@ -41,11 +41,13 @@ class Apriori_Interface(QWidget):
         self.support_confidence_layout.addLayout(self.support_layout)
         self.support_confidence_layout.addLayout(self.confidence_layout)
 
+        self.launch_layout = QVBoxLayout()
         self.launch_button = QPushButton("Launch Apriori Algorithm")
         self.launch_button.clicked.connect(self.launch_apriori)
+        self.launch_layout.addWidget(self.launch_button)
 
         self.vlayout1.addLayout(self.support_confidence_layout)
-        self.vlayout1.addLayout(self.launch_button)
+        self.vlayout1.addLayout(self.launch_layout)
 
         #2nd vertical layout contains 2 text areas to represent the results of the algorithm
         self.itemset_layout = QVBoxLayout()

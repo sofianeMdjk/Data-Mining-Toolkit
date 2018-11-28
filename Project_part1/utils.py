@@ -13,6 +13,6 @@ def unique(list1):
 def get_box_numerical_values():
     values = []
     for i in range(20):
-        values.append(5*i)
+        values.append(str(5*i))
     return values
 
