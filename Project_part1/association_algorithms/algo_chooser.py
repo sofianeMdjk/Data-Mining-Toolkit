@@ -1,5 +1,5 @@
 
-from classification_algorithms.apriori_algo import Apriori
+from association_algorithms.apriori_algo import Apriori
 
 
 apriori_algorithm = Apriori("breast-cancer.arff")
