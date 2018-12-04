@@ -1,6 +1,6 @@
 from PyQt5.QtWidgets import QTableView,QWidget,QTableWidget,QTableWidgetItem,\
     QVBoxLayout,QHBoxLayout,QPushButton,QComboBox, QMessageBox, QLabel
-from gui.Apriori_Interface import Apriori_Interface
+from interface.Apriori_Interface import Apriori_Interface
 
 class Instances_table(QWidget):
     def __init__(self,wk):
