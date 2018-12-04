@@ -1,4 +1,3 @@
-from classification_algorithms.dataset_split import train_test_split
+from classification_algorithms.dataset_split import load_split_data
 
-df = load_data("../classification_datasets/iris.data.txt")
-train_test_split(df,75)
+training_set, test_set = load_split_data("../classification_datasets/iris.data.txt",70)
