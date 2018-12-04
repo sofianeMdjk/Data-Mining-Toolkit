@@ -77,7 +77,4 @@ class Apriori():
 
     def apriori_results(self,min_support=0.40,min_confidence=0.6):
         rules, itemset = self.apriori(min_support, min_confidence)
-        return rules,itemset
-
-
-
+        return rules, itemset

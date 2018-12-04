@@ -1,6 +1,7 @@
 from PyQt5.QtWidgets import QWidget,\
     QVBoxLayout,QHBoxLayout,QPushButton,QComboBox, QMessageBox, QLabel, QLineEdit, QPlainTextEdit
 import utils
+from association_algorithms import apriori_algo
 
 class Apriori_Interface(QWidget):
     def __init__(self,ds_path):
@@ -75,5 +76,28 @@ class Apriori_Interface(QWidget):
 
 
     def launch_apriori(self):
-        pass
+        '''getting the support and confidence from our fields'''
+        support_content = self.support_edit.text()
+        if support_content != "":
+            support = float(support_content)
+        else:
+            support = float(str(self.support_box.currentText()))
+
+        confidence_content = self.confidence_edit.text()
+        if confidence_content != "":
+            confidence = float(confidence_content)
+        else:
+            confidence = float(str(self.confidence_box.currentText()))
+
+        '''Launching the apriori algorithm'''
+        tmp_path = "tmp/temp.csv"
+        apriori_instance = apriori_algo.Apriori(tmp_path)
+        rules, itemset = apriori_instance.apriori_results(support/100,confidence/100)
+        for item in itemset:
+            toprint = "-".join(utils.frozenset2list(item))+"\n"
+            self.itemset_area.insertPlainText(toprint)
+        for rule in rules:
+            premisses, rule_confidence = utils.formalize_rule(rule)
+            toprint = str(premisses)+"====>"+str(rule_confidence)+"\n"
+            self.rules_area.insertPlainText(toprint)
 
