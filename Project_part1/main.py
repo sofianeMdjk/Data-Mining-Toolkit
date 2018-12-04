@@ -2,6 +2,7 @@ import sys
 from PyQt5.QtWidgets import QApplication, QMainWindow, QFileDialog, QAction, qApp
 from weka_manager.weka_part import weka_handler
 from interface.Instances_table import Instances_table
+from interface.classification_interface import Classification_interface
 
 
 class Interface(QMainWindow):
@@ -36,9 +37,9 @@ class Interface(QMainWindow):
         replace_missing.triggered.connect(self.handle_replace)
 
         #classification_actions
-        load_classification_ds = QAction("Load numerical dataset")
+        load_classification_ds = QAction("start knn classification",self)
         load_classification_ds.setShortcut('Ctrl+k')
-        load_classification_ds.triggered.connect(self.handle_classification())
+        load_classification_ds.triggered.connect(self.handle_classification)
 
 
         mainMenu = self.menuBar()
@@ -78,7 +79,8 @@ class Interface(QMainWindow):
         pass
 
     def handle_classification(self):
-        pass
+        self.classification_widget = Classification_interface()
+        self.setCentralWidget(self.classification_widget)
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
