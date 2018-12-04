@@ -35,11 +35,11 @@ class Interface(QMainWindow):
         replace_missing.setShortcut('Ctrl+r')
         replace_missing.triggered.connect(self.handle_replace)
 
-        draw_histo = QAction("Draw histogram",self)
-        draw_histo.setShortcut('ctrl+h')
+        #classification_actions
+        load_classification_ds = QAction("Load numerical dataset")
+        load_classification_ds.setShortcut('Ctrl+k')
+        load_classification_ds.triggered.connect(self.handle_classification())
 
-        draw_box_plot = QAction("Draw box plot",self)
-        draw_box_plot.setShortcut("ctrl+b")
 
         mainMenu = self.menuBar()
 
@@ -48,8 +48,8 @@ class Interface(QMainWindow):
         fileMenu.addAction(save_ds_action)
         fileMenu.addAction(exit_action)
 
-        actionMenu = mainMenu.addMenu('&Actions')
-        actionMenu.addAction(replace_missing)
+        classificationMenu = mainMenu.addMenu('&Classification')
+        classificationMenu.addAction(load_classification_ds)
 
         self.show()
 
@@ -75,6 +75,9 @@ class Interface(QMainWindow):
 
     def handle_replace(self):
         #self.table_widget.replace_missing_values()
+        pass
+
+    def handle_classification(self):
         pass
 
 if __name__ == '__main__':
