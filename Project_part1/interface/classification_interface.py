@@ -83,3 +83,6 @@ class Classification_interface(QWidget):
                 k_neighbors = int(k_neighbors)
                 accuracy = run_knn(self.ds_path, split_param, k_neighbors)
 
+                toprint = "The accuracy of this classification is : \n"+str(accuracy)+"\n"
+                self.algo_results.insertPlainText(toprint)
+
