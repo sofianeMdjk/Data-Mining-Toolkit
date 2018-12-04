@@ -51,6 +51,7 @@ class Classification_interface(QWidget):
         self.results_layout.addWidget(self.result_label)
         #text area
         self.algo_results = QPlainTextEdit()
+        self.algo_results.setReadOnly(True)
         self.results_layout.addWidget(self.algo_results)
 
         self.vlayout2.addLayout(self.results_layout)
@@ -81,4 +82,4 @@ class Classification_interface(QWidget):
                 split_param = int(split_param)
                 k_neighbors = int(k_neighbors)
                 accuracy = run_knn(self.ds_path, split_param, k_neighbors)
-                print(accuracy)
+

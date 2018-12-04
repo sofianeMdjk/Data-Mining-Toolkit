@@ -59,6 +59,7 @@ class Apriori_Interface(QWidget):
         self.itemset_layout.addWidget(self.itemset_label)
 
         self.itemset_area = QPlainTextEdit()
+        self.itemset_area.setReadOnly(True)
         self.itemset_layout.addWidget(self.itemset_area)
 
         #rules_layout
@@ -66,6 +67,7 @@ class Apriori_Interface(QWidget):
         self.rules_layout.addWidget(self.rules_label)
 
         self.rules_area = QPlainTextEdit()
+        self.rules_area.setReadOnly(True)
         self.rules_layout.addWidget(self.rules_area)
 
         self.vlayout2.addLayout(self.itemset_layout)
