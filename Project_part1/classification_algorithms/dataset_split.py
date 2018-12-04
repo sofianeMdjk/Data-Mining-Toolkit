@@ -1,20 +1,15 @@
-
-import pandas as pd
-
-def load_data(path):
-    df = pd.read_csv(path)
-    return df
-
-def train_test_split(data,training):
-    df_size = len(data.index)
-    training_set_num_rows = int(df_size*training/100)
-    #test_set_num_rows = df_size-training_set_num_rows
-    training_set = data[0:training_set_num_rows]
-    test_set = data[training_set_num_rows:df_size]
-    return training_set,test_set
-
-def load_split_data(dataset_path, training):
-    df = load_data(dataset_path)
-    training_set, test_set = train_test_split(df, training)
+import csv
+import random
+def load_dataset(filename, split):
+    training_set = []
+    test_set = []
+    with open(filename, "r") as csv_file:
+        lines = csv.reader(csv_file)
+        dataset = list(lines)
+        tr_set = int(len(dataset)*split/100)
+        for i in range(tr_set):
+            training_set.append(dataset[i])
+        for i in range(tr_set,len(dataset)-1):
+            test_set.append(dataset[i])
 
     return training_set, test_set
