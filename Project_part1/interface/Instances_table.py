@@ -1,6 +1,7 @@
 from PyQt5.QtWidgets import QTableView,QWidget,QTableWidget,QTableWidgetItem,\
     QVBoxLayout,QHBoxLayout,QPushButton,QComboBox, QMessageBox, QLabel
 from interface.Apriori_Interface import Apriori_Interface
+from interface.classification_interface import Classification_interface
 
 class Instances_table(QWidget):
     def __init__(self,wk):
@@ -67,6 +68,10 @@ class Instances_table(QWidget):
         self.apriori_button = QPushButton("Configure Apriori Algorithm")
         self.apriori_button.clicked.connect(self.apriori_configure)
         self.vlayout2.addWidget(self.apriori_button)
+
+        self.knn_button = QPushButton("Classify with KNN")
+        self.knn_button.clicked.connect(self.knn_configure)
+        self.vlayout2.addWidget(self.knn_button)
 
         #Horizental layout
 
@@ -149,10 +154,18 @@ class Instances_table(QWidget):
 
     def apriori_configure(self):
         df = self.weka_instance.get_df()
-        path = "temp.csv"
+        path = "tmp/temp.csv"
         df.to_csv(path,sep=",",encoding="utf-8")
         #Creating a modal to launch apriori algo
         self.apriori_window = Apriori_Interface(path)
         self.apriori_window.setGeometry(400, 300, 800, 800)
         self.apriori_window.show()
+
+    def knn_configure(self):
+        df = self.weka_instance.get_df()
+        path = "tmp/temp.csv"
+        df.to_csv(path, sep=",", encoding="utf-8")
+        self.knn_window = Classification_interface()
+        self.knn_window.setGeometry(200,200,600,400)
+        self.knn_window.show()
 

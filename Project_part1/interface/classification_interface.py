@@ -8,7 +8,7 @@ class Classification_interface(QWidget):
         self.hlayout = QHBoxLayout(self)
         self.vlayout1 = QVBoxLayout(self)
         self.vlayout2 = QVBoxLayout(self)
-        self.ds_path = None
+        self.ds_path = "tmp/temp.csv"
         #first vertical layout contains parameters and launch button
         self.param_layout = QVBoxLayout(self)
 
@@ -32,10 +32,6 @@ class Classification_interface(QWidget):
         self.param_layout.addLayout(self.k_layout)
 
         self.buttons_layout = QHBoxLayout()
-        #load button
-        self.load_button = QPushButton("Load dataset")
-        self.load_button.clicked.connect(self.handle_ds_load)
-        self.buttons_layout.addWidget(self.load_button)
         #launch knn button
         self.launch_knn = QPushButton("Launch KNN classification")
         self.launch_knn.clicked.connect(self.handle_knn)
@@ -60,29 +56,18 @@ class Classification_interface(QWidget):
         self.hlayout.addLayout(self.vlayout2)
 
 
-    def handle_ds_load(self):
-        options = QFileDialog.Options()
-        options |= QFileDialog.DontUseNativeDialog
-        fileName, _ = QFileDialog.getOpenFileName(self, "QFileDialog.getOpenFileName()", "",
-                                                  "All Files (*);;Python Files (*.py)", options=options)
-        self.ds_path = fileName
-
     def handle_knn(self):
-        if self.ds_path == None :
-            message_content = "Make sure to load your dataset first"
+        split_param = self.split_edit.text()
+        k_neighbors = self.k_edit.text()
+
+        if split_param == "" or k_neighbors == "":
+            message_content = "Fill both split and k neighbors with a number"
             buttonReply = QMessageBox.information(self, 'Attribute details', message_content, QMessageBox.Cancel)
-        else :
-            split_param = self.split_edit.text()
-            k_neighbors = self.k_edit.text()
+        else:
+            split_param = int(split_param)
+            k_neighbors = int(k_neighbors)
+            accuracy = run_knn(self.ds_path, split_param, k_neighbors)
 
-            if split_param == "" or k_neighbors == "":
-                message_content = "Fill both split and k neighbors with a number"
-                buttonReply = QMessageBox.information(self, 'Attribute details', message_content, QMessageBox.Cancel)
-            else:
-                split_param = int(split_param)
-                k_neighbors = int(k_neighbors)
-                accuracy = run_knn(self.ds_path, split_param, k_neighbors)
-
-                toprint = "The accuracy of this classification is : \n"+str(accuracy)+"\n"
-                self.algo_results.insertPlainText(toprint)
+            toprint = "The accuracy of this classification is : \n"+str(accuracy)+"\n"
+            self.algo_results.insertPlainText(toprint)
 

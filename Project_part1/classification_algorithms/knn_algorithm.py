@@ -46,7 +46,7 @@ def get_accuracy(test_set, predicitons):
     accurate_classifications = 0
     for i in range(len(test_set)):
         if test_set[i][-1] == predicitons[i]:
-            accurate_classifications +=1
+            accurate_classifications += 1
 
     return float(accurate_classifications/len(test_set))
 

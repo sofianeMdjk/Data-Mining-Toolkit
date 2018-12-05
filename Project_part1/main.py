@@ -30,27 +30,12 @@ class Interface(QMainWindow):
         exit_action = QAction('Exit',self)
         exit_action.triggered.connect(qApp.quit)
 
-
-        #dataset actions
-        replace_missing = QAction("Replace missing values",self)
-        replace_missing.setShortcut('Ctrl+r')
-        replace_missing.triggered.connect(self.handle_replace)
-
-        #classification_actions
-        load_classification_ds = QAction("start knn classification",self)
-        load_classification_ds.setShortcut('Ctrl+k')
-        load_classification_ds.triggered.connect(self.handle_classification)
-
-
         mainMenu = self.menuBar()
 
         fileMenu = mainMenu.addMenu('&File')
         fileMenu.addAction(load_ds_action)
         fileMenu.addAction(save_ds_action)
         fileMenu.addAction(exit_action)
-
-        classificationMenu = mainMenu.addMenu('&Classification')
-        classificationMenu.addAction(load_classification_ds)
 
         self.show()
 
@@ -74,13 +59,7 @@ class Interface(QMainWindow):
     def handle_ds_save(self):
         self.weka.save_dataset("iris.csv")
 
-    def handle_replace(self):
-        #self.table_widget.replace_missing_values()
-        pass
 
-    def handle_classification(self):
-        self.classification_widget = Classification_interface()
-        self.setCentralWidget(self.classification_widget)
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
