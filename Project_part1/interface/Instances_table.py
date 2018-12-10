@@ -74,7 +74,7 @@ class Instances_table(QWidget):
         self.vlayout2.addWidget(self.knn_button)
 
         self.dbscan_button = QPushButton("Classify with DBScan")
-        self.dbscan_button.clicked.connect(self.)
+        self.dbscan_button.clicked.connect(self.dbscan_configure)
         self.vlayout2.addWidget(self.dbscan_button)
 
         #Horizental layout
