@@ -1,16 +1,6 @@
 from classification_algorithms.dataset_split import load_dataset
-import math
 import operator
-import nltk
-
-def calculate_euclidian_distance(instance1, instance2):
-    instance_length = len(instance1)-1 #No need to take in consideration the class attribute
-    distance = 0
-
-    for i in range(instance_length):
-        distance += pow((float(instance1[i]) - float(instance2[i])), 2)
-    eucl_distance = math.sqrt(distance)
-    return eucl_distance
+from utils import calculate_euclidian_distance
 
 
 def get_k_neighbors(k,training_set, test_instance):

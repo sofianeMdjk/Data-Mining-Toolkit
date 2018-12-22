@@ -2,6 +2,7 @@ from PyQt5.QtWidgets import QTableView,QWidget,QTableWidget,QTableWidgetItem,\
     QVBoxLayout,QHBoxLayout,QPushButton,QComboBox, QMessageBox, QLabel
 from interface.Apriori_Interface import Apriori_Interface
 from interface.classification_interface import Classification_interface
+from interface.dbscan_interface import Dbscan_interface
 
 class Instances_table(QWidget):
     def __init__(self,wk):
@@ -174,4 +175,9 @@ class Instances_table(QWidget):
         self.knn_window.show()
 
     def dbscan_configure(self):
-        pass
+        df = self.weka_instance.get_df()
+        path = "tmp/temp.csv"
+        df.to_csv(path, sep=",", encoding="utf-8")
+        self.knn_window = Dbscan_interface()
+        self.knn_window.setGeometry(200, 200, 600, 400)
+        self.knn_window.show()
